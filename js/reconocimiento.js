@@ -4,6 +4,7 @@ const btnDetener = document.querySelector('#btn2');
 const texto = document.querySelector('#text');
 
 const btnLeer = document.querySelector('#btn3');
+const btnDescargar = document.querySelector('#btn4');
 
 let recognition = new webkitSpeechRecognition();
 recognition.lang = 'es-ES, en-US';
@@ -33,7 +34,11 @@ btnDetener.addEventListener('click', () => {
 
 btnLeer.addEventListener('click', () => {
   leerTexto(texto.value)
-})
+});
+
+btnDescargar.addEventListener('click', () => {
+  descargarTxt(texto.value)
+});
 
 // Funciones
 
@@ -46,6 +51,13 @@ function leerTexto(txt) {
   // speech.pitch = 1;
 
   window.speechSynthesis.speak(speech)
+}
 
+/*************************************************************/
+
+function descargarTxt(params) {
+  const doc = new jsPDF();
+  doc.text(texto.value, 10, 10);
+  doc.save('poema.pdf');
 }
 
