@@ -17,11 +17,13 @@ recognition.onresult = (e) => {
   // const res = e.results[0][0].transcript;
   const res = e.results;
   const frase = res[res.length - 1][0].transcript;
-  texto.value += frase;
+  texto.value += frase + ' ';
+  swal('Verso grabado!', 'Si quieres seguir grabando otro verso dale en el botón azul!')
 }
 
 btnGrabar.addEventListener('click', () => {
   recognition.start();
+  recognition.continuous = true;
 });
 
 btnDetener.addEventListener('click', () => {
