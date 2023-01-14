@@ -29,6 +29,10 @@ btnDetener.addEventListener('click', () => {
   swal("Buen trabajo!", "El microfono ha dejado de grabar.", "success");
 });
 
+btnLeer.addEventListener('click', () => {
+  leerTexto(texto.value)
+})
+
 // Funciones
 
 function leerTexto(txt) {
