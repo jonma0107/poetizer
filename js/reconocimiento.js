@@ -3,6 +3,8 @@ const btnGrabar = document.querySelector('#btn1');
 const btnDetener = document.querySelector('#btn2');
 const texto = document.querySelector('#text');
 
+const btnLeer = document.querySelector('#btn3');
+
 let recognition = new webkitSpeechRecognition();
 recognition.lang = 'es-ES, en-US';
 recognition.continuous = true;
@@ -28,4 +30,15 @@ btnDetener.addEventListener('click', () => {
 });
 
 // Funciones
+
+function leerTexto(txt) {
+  const speech = new SpeechSynthesisUtterance();
+  speech.text = txt;
+  speech.volume = 1;
+  speech.rate = 1;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech)
+
+}
 
