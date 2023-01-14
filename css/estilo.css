@@ -1,0 +1,6 @@
+@media (max-width: 554px) {
+  .botones {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
