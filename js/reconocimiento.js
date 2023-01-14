@@ -24,6 +24,7 @@ btnGrabar.addEventListener('click', () => {
 
 btnDetener.addEventListener('click', () => {
   recognition.abort();
+  swal("Buen trabajo!", "El microfono ha dejado de grabar.", "success");
 });
 
 // Funciones
