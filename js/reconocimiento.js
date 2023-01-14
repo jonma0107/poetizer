@@ -40,9 +40,10 @@ btnLeer.addEventListener('click', () => {
 function leerTexto(txt) {
   const speech = new SpeechSynthesisUtterance();
   speech.text = txt;
+  speech.voice = speechSynthesis.getVoices().filter(voice => voice.name === 'Google español')[0];
   speech.volume = 1;
   speech.rate = 1;
-  speech.pitch = 1;
+  // speech.pitch = 1;
 
   window.speechSynthesis.speak(speech)
 
