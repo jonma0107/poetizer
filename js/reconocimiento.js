@@ -8,7 +8,7 @@ const btnDescargar = document.querySelector('#btn4');
 
 let recognition = new webkitSpeechRecognition();
 recognition.lang = 'es-ES, en-US';
-recognition.continuous = false;
+recognition.continuous = true;
 recognition.interimResults = false;
 
 
@@ -17,8 +17,9 @@ recognition.interimResults = false;
 recognition.onresult = (e) => {
   // const res = e.results[0][0].transcript;
   const res = e.results;
-  const frase = res[res.length - 1][0].transcript;
-  texto.value += frase + ' ';
+  const frase = res[res.length - 1][0];
+  const { transcript } = frase
+  texto.value += transcript + '\n';
   swal('Verso grabado!', 'Si quieres seguir grabando otro verso dále en el botón azul!')
 }
 
