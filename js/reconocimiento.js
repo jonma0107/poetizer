@@ -25,7 +25,7 @@ recognition.onresult = (e) => {
 
 btnGrabar.addEventListener('click', () => {
   recognition.start();
-  // recognition.continuous = true;
+  recognition.continuous = true;
 });
 
 btnDetener.addEventListener('click', () => {
