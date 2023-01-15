@@ -19,7 +19,7 @@ recognition.onresult = (e) => {
   const res = e.results;
   const frase = res[res.length - 1][0].transcript;
   texto.value += frase + ' ';
-  swal('Verso grabado!', 'Si quieres seguir grabando otro verso dale en el botón azul!')
+  swal('Verso grabado!', 'Si quieres seguir grabando otro verso dále en el botón azul!')
 }
 
 btnGrabar.addEventListener('click', () => {
@@ -29,7 +29,7 @@ btnGrabar.addEventListener('click', () => {
 
 btnDetener.addEventListener('click', () => {
   recognition.abort();
-  swal("Buen trabajo!", "El microfono ha dejado de grabar.", "success");
+  swal("Buen trabajo!", "El micrófono ha dejado de grabar.", "success");
 });
 
 btnLeer.addEventListener('click', () => {
@@ -61,8 +61,7 @@ function descargarTxt(params) {
   let styles = {
     fontSize: 12,
     font: "helvetica",
-    cellPadding: 8,
-    valign: "middle",
+    cellPadding: 8,    
     textAlign: "justify"
   };
 
@@ -76,7 +75,7 @@ function descargarTxt(params) {
     head: [['Contenido del poema']],
     styles: styles,
     margin: margins,
-    tableLineColor: "#c0392b",
+    pageBreak: "auto",
     tableLineWidth: "auto",
     body: [[texto.value]],
   });
