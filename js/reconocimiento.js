@@ -7,7 +7,7 @@ const btnLeer = document.querySelector('#btn3');
 const btnDescargar = document.querySelector('#btn4');
 
 let recognition = new webkitSpeechRecognition();
-recognition.lang = 'es-ES, en-US';
+recognition.lang = 'es-MX, en-US';
 recognition.continuous = true;
 recognition.interimResults = false;
 
@@ -24,7 +24,8 @@ recognition.onresult = (e) => {
 }
 
 btnGrabar.addEventListener('click', () => {
-  recognition.start();  
+  recognition.start();
+  recognition.continuous = true;
 });
 
 btnDetener.addEventListener('click', () => {
@@ -45,11 +46,11 @@ btnDescargar.addEventListener('click', () => {
 function leerTexto(txt) {
   const speech = new SpeechSynthesisUtterance();
   speech.text = txt;
-  speech.voice = speechSynthesis.getVoices().filter(voice => voice.name === 'Google español')[0];
+  let selectedVoice = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith('es-MX') && voice.name.startsWith('Google'))[0];
+  speech.voice = selectedVoice;
   speech.volume = 1;
   speech.rate = 1;
-  // speech.pitch = 1;
-
+  
   window.speechSynthesis.speak(speech)
 }
 
