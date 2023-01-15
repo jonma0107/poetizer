@@ -8,7 +8,7 @@ const btnDescargar = document.querySelector('#btn4');
 
 let recognition = new webkitSpeechRecognition();
 recognition.lang = 'es-ES, en-US';
-recognition.continuous = true;
+recognition.continuous = false;
 recognition.interimResults = false;
 
 
