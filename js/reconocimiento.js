@@ -57,7 +57,29 @@ function leerTexto(txt) {
 
 function descargarTxt(params) {
   const doc = new jsPDF();
-  doc.text(texto.value, 10, 10);
+
+  let styles = {
+    fontSize: 12,
+    font: "helvetica",
+    cellPadding: 8,
+    valign: "middle",
+    textAlign: "justify"
+  };
+
+  let margins = {
+    top: 10,
+    left: 20,
+    right: 20
+  };
+
+  doc.autoTable({
+    head: [['Contenido del poema']],
+    styles: styles,
+    margin: margins,
+    tableLineColor: "#c0392b",
+    tableLineWidth: "auto",
+    body: [[texto.value]],
+  });
+
   doc.save('poema.pdf');
-}
 
