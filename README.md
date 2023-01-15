@@ -1,4 +1,5 @@
-# poetizer
+# Poetizer : con tu voz empieza a crear tu poema
+
 + móvil
 <div align="center">
 
