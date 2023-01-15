@@ -23,12 +23,11 @@ recognition.onresult = (e) => {
 }
 
 btnGrabar.addEventListener('click', () => {
-  recognition.start();
-  // recognition.continuous = true;
+  recognition.start();  
 });
 
 btnDetener.addEventListener('click', () => {
-  recognition.abort();
+  recognition.stop();
   swal("Buen trabajo!", "El micrófono ha dejado de grabar.", "success");
 });
 
