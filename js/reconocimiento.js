@@ -1,4 +1,5 @@
 // Variables
+let DB;
 const btnGrabar = document.querySelector('#btn1');
 const btnDetener = document.querySelector('#btn2');
 const texto = document.querySelector('#text');
@@ -11,8 +12,21 @@ recognition.lang = 'es-MX, en-US';
 recognition.continuous = true;
 recognition.interimResults = false;
 
+// Objeto para almacenar la info de la base de datos
+const poemaObj = {
+  poema: '',
+  id: Date.now()
+}
+
 
 // Eventos
+
+document.addEventListener('DOMContentLoaded', () => {
+  crearBD();
+  if (window.indexedDB.open('bd', 1)) {
+    mantenerPoema();
+  }
+});
 
 recognition.onresult = (e) => {
   // const res = e.results[0][0].transcript;
@@ -20,6 +34,7 @@ recognition.onresult = (e) => {
   const frase = res[res.length - 1][0];
   const { transcript } = frase
   texto.value += transcript + '\n';
+  agregarValor(texto.value);
   swal('Verso grabado!', 'Si quieres seguir grabando otro verso dále en el botón azul!')
 }
 
@@ -31,6 +46,7 @@ btnGrabar.addEventListener('click', () => {
 btnDetener.addEventListener('click', () => {
   recognition.stop();
   swal("Buen trabajo!", "El micrófono ha dejado de grabar.", "success");
+  crearPoema();
 });
 
 btnLeer.addEventListener('click', () => {
@@ -40,6 +56,44 @@ btnLeer.addEventListener('click', () => {
 btnDescargar.addEventListener('click', () => {
   descargarTxt(texto.value)
 });
+
+/************************************************************/
+
+// BASE DE DATOS
+
+function crearBD() {
+  // definir la version 1.0
+  const crearBD = window.indexedDB.open('bd', 1);
+
+  crearBD.onerror = () => {
+    console.log('hubo un error');
+  }
+
+  crearBD.onsuccess = () => {
+    console.log('base de datos creada');
+    DB = crearBD.result;
+
+    console.log(DB);
+  }
+
+  // definir el schema
+  crearBD.onupgradeneeded = (e) => {
+    const db = e.target.result;
+    // le pasamos la base de datos y la configuración
+    const objectStore = db.createObjectStore('bd', {
+      keyPath: 'id',
+      autoIncrement: true
+    });
+
+    //definir columnas
+    objectStore.createIndex('poema', 'poema', { unique: false });
+
+    console.log('base lista');
+  }
+
+} // fin crearBD
+
+/*********************************************************************/
 
 // Funciones
 
@@ -84,3 +138,39 @@ function descargarTxt(params) {
   doc.save('poema.pdf');
   
 };
+
+function crearPoema() {
+  const transaction = DB.transaction(['bd'], 'readwrite')
+
+  const objectStore = transaction.objectStore('bd');
+
+  objectStore.add(poemaObj)
+};
+
+function agregarValor(valor) {
+  poemaObj.poema = valor;
+
+};
+
+function mantenerPoema() {
+  const conectarBD = window.indexedDB.open('bd', 1)
+
+  conectarBD.onsuccess = () => {
+    DB = conectarBD.result;
+    const transaction = DB.transaction(['bd'], 'readwrite')
+
+    const objectStore = transaction.objectStore('bd');
+
+    objectStore.openCursor(null, 'prev').onsuccess = function (e) {
+      const cursor = e.target.result;
+      if (cursor) {
+        const { poema } = cursor.value
+        texto.textContent = poema
+
+        console.log(cursor.value.poema);
+      } // fin if
+    }
+
+  };
+
+}; // fin función mantenerPoema
