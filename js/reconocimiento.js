@@ -14,9 +14,8 @@ recognition.interimResults = false;
 
 // Objeto para almacenar la info de la base de datos
 const poemaObj = {
-  poema: '',
-  id: Date.now()
-}
+  poema: ''
+};
 
 
 // Eventos
@@ -40,13 +39,13 @@ recognition.onresult = (e) => {
 
 btnGrabar.addEventListener('click', () => {
   recognition.start();
-  recognition.continuous = true;
+//   recognition.continuous = true;
 });
 
 btnDetener.addEventListener('click', () => {
-  recognition.stop();
-  swal("Buen trabajo!", "El micrófono ha dejado de grabar.", "success");
   crearPoema();
+  recognition.stop();
+  swal("Buen trabajo!", "El micrófono ha dejado de grabar.", "success");  
 });
 
 btnLeer.addEventListener('click', () => {
@@ -57,9 +56,7 @@ btnDescargar.addEventListener('click', () => {
   descargarTxt(texto.value)
 });
 
-/************************************************************/
-
-// BASE DE DATOS
+/*************************************************************  BASE DE DATOS  ****************************************************/
 
 function crearBD() {
   // definir la version 1.0
@@ -93,9 +90,7 @@ function crearBD() {
 
 } // fin crearBD
 
-/*********************************************************************/
-
-// Funciones
+/********************************************************  FUNCIONES  *************************************************************/
 
 function leerTexto(txt) {
   const speech = new SpeechSynthesisUtterance();
@@ -139,18 +134,35 @@ function descargarTxt(params) {
   
 };
 
+/*************************************************************/
+
 function crearPoema() {
-  const transaction = DB.transaction(['bd'], 'readwrite')
 
-  const objectStore = transaction.objectStore('bd');
+  const conectarBD = window.indexedDB.open('bd', 1)
 
-  objectStore.add(poemaObj)
-};
+  conectarBD.onsuccess = () => {
+    DB = conectarBD.result;
+    const transaction = DB.transaction(['bd'], 'readwrite')
+
+    const objectStore = transaction.objectStore('bd');
+
+    objectStore.add(poemaObj)
+
+    objectStore.openCursor(null, 'prev').onsuccess = function (e) {
+      const cursor = e.target.result;
+      poemaObj.poema = cursor.value.poema
+      console.log(cursor);
+    }; // fin openCursor
+  }; // fin conectarBD
+}; // fin función crearPoema
+
+/*************************************************************/
 
 function agregarValor(valor) {
   poemaObj.poema = valor;
-
 };
+
+/*************************************************************/
 
 function mantenerPoema() {
   const conectarBD = window.indexedDB.open('bd', 1)
@@ -166,8 +178,7 @@ function mantenerPoema() {
       if (cursor) {
         const { poema } = cursor.value
         texto.textContent = poema
-
-        console.log(cursor.value.poema);
+//         console.log(cursor.value.poema);
       } // fin if
     }
 
