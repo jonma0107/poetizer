@@ -34,7 +34,7 @@ recognition.onresult = (e) => {
   const { transcript } = frase
   texto.value += transcript + '\n';
   agregarValor(texto.value);
-  swal('Verso grabado!', 'Si quieres seguir grabando otro verso dále en el botón azul!')
+  swal('Verso grabado!', 'Si quieres seguir grabando otro verso dale en OK!')
 }
 
 btnGrabar.addEventListener('click', () => {
